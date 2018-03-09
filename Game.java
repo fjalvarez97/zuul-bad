@@ -45,12 +45,26 @@ public class Game
         cajaFuerte = new Room("in the bank safety deposit box room!");
 
         // initialise room exits
-        entrada.setExits(recepcion, null, null, null, null, salaMaquinas);
-        recepcion.setExits(almacen, oficinas, entrada, salaMaquinas, null, null);
-        salaMaquinas.setExits(null, recepcion, null, null, null, null);
-        oficinas.setExits(cajaFuerte, null, null, recepcion, null, almacen);
-        almacen.setExits(null, cajaFuerte, recepcion, null, oficinas, null);
-        cajaFuerte.setExits(null, null, oficinas, almacen, null, null);
+        entrada.setExit("north", recepcion);
+        entrada.setExit("northWest", salaMaquinas);
+        
+        recepcion.setExit("north", almacen);
+        recepcion.setExit("east", oficinas);
+        recepcion.setExit("south", entrada);
+        recepcion.setExit("west", salaMaquinas);
+        
+        salaMaquinas.setExit("east", recepcion);
+        
+        oficinas.setExit("north", cajaFuerte);
+        oficinas.setExit("west", recepcion);
+        oficinas.setExit("northWest", almacen);
+
+        almacen.setExit("east", cajaFuerte);
+        almacen.setExit("south", recepcion);
+        almacen.setExit("southEast", oficinas);
+        
+        cajaFuerte.setExit("south", oficinas);
+        cajaFuerte.setExit("west", almacen);
 
         currentRoom = entrada;  //Empieza el juego en la entrada del banco.
     }
