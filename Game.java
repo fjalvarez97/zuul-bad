@@ -45,12 +45,12 @@ public class Game
         cajaFuerte = new Room("in the bank safety deposit box room!");
 
         // initialise room exits
-        entrada.setExits(recepcion, null, null, null);
-        recepcion.setExits(almacen, oficinas, entrada, salaMaquinas);
-        salaMaquinas.setExits(null, recepcion, null, null);
-        oficinas.setExits(cajaFuerte, null, null, recepcion);
-        almacen.setExits(null, cajaFuerte, recepcion, null);
-        cajaFuerte.setExits(null, null, oficinas, almacen);
+        entrada.setExits(recepcion, null, null, null, null);
+        recepcion.setExits(almacen, oficinas, entrada, salaMaquinas, null);
+        salaMaquinas.setExits(null, recepcion, null, null, null);
+        oficinas.setExits(cajaFuerte, null, null, recepcion, null);
+        almacen.setExits(null, cajaFuerte, recepcion, null, oficinas);
+        cajaFuerte.setExits(null, null, oficinas, almacen, null);
 
         currentRoom = entrada;  //Empieza el juego en la entrada del banco.
     }
@@ -158,6 +158,9 @@ public class Game
         if(direction.equals("west")) {
             nextRoom = currentRoom.westExit;
         }
+        if(direction.equals("southeast")) {
+            nextRoom = currentRoom.southEastExit;
+        }
 
         if (nextRoom == null) {
             System.out.println("There is no door!");
@@ -183,6 +186,9 @@ public class Game
         }
         if(currentRoom.westExit != null) {
             System.out.print("west ");
+        }
+        if(currentRoom.southEastExit != null) {
+            System.out.print("southeast ");
         }
         System.out.println();
     }
