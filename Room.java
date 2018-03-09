@@ -14,12 +14,12 @@
  */
 public class Room 
 {
-    public String description;
-    public Room northExit;
-    public Room southExit;
-    public Room eastExit;
-    public Room westExit;
-    public Room southEastExit;
+    private String description;
+    private Room northExit;
+    private Room southExit;
+    private Room eastExit;
+    private Room westExit;
+    private Room southEastExit;
 
     /**
      * Create a room described "description". Initially, it has
@@ -62,4 +62,56 @@ public class Room
         return description;
     }
 
+    /**
+     * Get the exit (if exist) of the parameter's direction.
+     * @param direction The exit direction you want to know.
+     * @return The room you want to exit to.
+     */
+    public Room getExit(String direction)
+    {
+        Room theRoom = null;
+        if(direction.equals("north")) {
+            theRoom = northExit;
+        }
+        if(direction.equals("east")) {
+            theRoom = eastExit;
+        }
+        if(direction.equals("south")) {
+            theRoom = southExit;
+        }
+        if(direction.equals("west")) {
+            theRoom = westExit;
+        }
+        if(direction.equals("southeast")) {
+            theRoom = southEastExit;
+        }
+        return theRoom;
+    }
+
+    /**
+     * Return a description of the room's exits.
+     * For example: "Exits: north east west"
+     *
+     * @ return A description of the available exits.
+     */
+    public String getExitString()
+    {
+        String salidas = "";
+        if(northExit != null) {
+            salidas += "north ";
+        }
+        if(eastExit != null) {
+            salidas += ("east ");
+        }
+        if(southExit != null) {
+            salidas += ("south ");
+        }
+        if(westExit != null) {
+            System.out.print("west ");
+        }
+        if(southEastExit != null) {
+            System.out.print("southeast ");
+        }
+        return salidas;
+    }
 }
