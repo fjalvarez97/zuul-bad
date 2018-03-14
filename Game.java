@@ -47,14 +47,14 @@ public class Game
         // initialise room exits
         entrada.setExit("north", recepcion);
         entrada.setExit("northWest", salaMaquinas);
-        
+
         recepcion.setExit("north", almacen);
         recepcion.setExit("east", oficinas);
         recepcion.setExit("south", entrada);
         recepcion.setExit("west", salaMaquinas);
-        
+
         salaMaquinas.setExit("east", recepcion);
-        
+
         oficinas.setExit("north", cajaFuerte);
         oficinas.setExit("west", recepcion);
         oficinas.setExit("northWest", almacen);
@@ -62,7 +62,7 @@ public class Game
         almacen.setExit("east", cajaFuerte);
         almacen.setExit("south", recepcion);
         almacen.setExit("southEast", oficinas);
-        
+
         cajaFuerte.setExit("south", oficinas);
         cajaFuerte.setExit("west", almacen);
 
@@ -124,7 +124,9 @@ public class Game
         else if (commandWord.equals("quit")) {
             wantToQuit = quit(command);
         }
-
+        else if (commandWord.equals("look")) {
+            look();
+        }
         return wantToQuit;
     }
 
@@ -144,6 +146,14 @@ public class Game
         System.out.println("   go quit help");
     }
 
+    /**
+     * Prints the long description of the currentroom
+     */
+    private void look()
+    {
+        System.out.println(currentRoom.getLongDescription());
+    }
+
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
@@ -160,7 +170,7 @@ public class Game
 
         // Try to leave current room.
         Room nextRoom = currentRoom.getExit(direction);
-  
+
         if (nextRoom == null) {
             System.out.println("There is no door!");
         }
@@ -169,7 +179,7 @@ public class Game
             printLocationInfo();
         }
     }
-    
+
     /**
      * Print the info of the actual location (Current room and possibles room's exits)
      */
