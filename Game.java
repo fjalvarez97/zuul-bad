@@ -127,6 +127,9 @@ public class Game
         else if (commandWord.equals("look")) {
             look();
         }
+        else if (commandWord.equals("eat")) {
+            eat();
+        }
         return wantToQuit;
     }
 
@@ -153,7 +156,15 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
     }
-
+    
+    /**
+     * Prints a message that you have eaten
+     */
+    private void eat()
+    {
+        System.out.println("You have eaten now and you are not hungry any more");
+    }
+    
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
