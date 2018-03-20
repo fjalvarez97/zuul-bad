@@ -19,7 +19,7 @@ public class Game
 {
     private Parser parser;
     private Room currentRoom;
-
+    private Room lastRoom;
     /**
      * Create the game and initialise its internal map.
      */
@@ -27,6 +27,7 @@ public class Game
     {
         createRooms();
         parser = new Parser();
+        lastRoom = null;
     }
 
     /**
@@ -136,6 +137,9 @@ public class Game
         else if (commandWord.equals("eat")) {
             eat();
         }
+                else if (commandWord.equals("back")) {
+            back();
+        }
         return wantToQuit;
     }
 
@@ -192,6 +196,7 @@ public class Game
             System.out.println("There is no door!");
         }
         else {
+            lastRoom = currentRoom;
             currentRoom = nextRoom;
             printLocationInfo();
         }
@@ -218,6 +223,21 @@ public class Game
         }
         else {
             return true;  // signal that we want to quit
+        }
+    }
+    
+    /**
+     * Return to the last Room you have been in
+     */
+    private void back()
+    {
+        if (lastRoom != null) {
+            currentRoom = lastRoom;
+            lastRoom = null;
+             printLocationInfo();
+        }
+        else {
+            System.out.println("You cant go back");
         }
     }
 }
