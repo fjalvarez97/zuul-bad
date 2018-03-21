@@ -146,4 +146,10 @@ public class Room
     {
         items.remove(item);
     }
+    
+    public ArrayList<Item> getItems()
+    {
+        return items;
+    }
+    
 }

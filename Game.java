@@ -58,8 +58,8 @@ public class Game
         oficinas.addItem("three cards", 1, true);
         almacen = new Room("in the warehouse");
         cajaFuerte = new Room("in the bank safety deposit box room!");
-        cajaFuerte.addItem("a gold chest", 1, false);
-        cajaFuerte.addItem("some gold coins", 2, true);
+        cajaFuerte.addItem("a gold chest", 9, false);
+        cajaFuerte.addItem("a security guard", 100, true);
 
         // initialise room exits
         entrada.setExit("north", recepcion);
@@ -268,12 +268,16 @@ public class Game
      */
     private void takeItem(int numItem)
     {
+        if (currentRoom.getItems().size()>0) {
         if (actualWeight < maxWeight) {
             Item itemToTake = currentRoom.takeItem(numItem);
-            if (itemToTake.getAbleToCatch()) {
+            if (itemToTake.getWeight()+ actualWeight > maxWeight) {
+                System.out.println("That's too heavy for you, drop something!");
+            }
+            else if (itemToTake.getAbleToCatch()) {
                 characterItems.add(itemToTake);
                 actualWeight += itemToTake.getWeight();
-                currentRoom.removeItem(itemToTake);
+                currentRoom.removeItem(itemToTake);                
                 System.out.println("You catch " + itemToTake.getDescription());
             }
             else {
@@ -283,15 +287,26 @@ public class Game
         else {
             System.out.println("You cant carry anything else");
         }
+        }
+        else {
+            System.out.println("This room is empty");
+        }
     }
-    
+
     /** 
      * Shows the info of the items taked by a character
      */
     private void itemsCarriedInfo() 
     {
-        for (Item actualItem : characterItems) {
-            System.out.println("You have " + actualItem.getDescription() + " that weights " + actualItem.getWeight() + "kg");
+        System.out.println("Your actual weight is " + actualWeight);
+        System.out.println("The max weight you can carry is " + maxWeight);
+        if (characterItems.size()==0){
+            System.out.println("You aren't carrying anything");
+        }
+        else {
+            for (Item actualItem : characterItems) {
+                System.out.println("You have " + actualItem.getDescription() + " that weights " + actualItem.getWeight() + "kg");
+            }
         }
     }
     
@@ -303,6 +318,7 @@ public class Game
         Item itemToRemove = characterItems.get(numItem);
         currentRoom.addItem(itemToRemove);
         characterItems.remove(numItem);
+        actualWeight -= itemToRemove.getWeight();
         System.out.println("You have droped " + itemToRemove.getDescription());
     }
 }
