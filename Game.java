@@ -2,6 +2,7 @@ import java.util.Vector;
 import java.util.AbstractCollection;
 import java.util.Stack;
 import java.util.AbstractList;
+import java.util.ArrayList;
 /**
  *  This class is the main class of the "World of Zuul" application. 
  *  "World of Zuul" is a very simple, text based adventure game.  Users 
@@ -24,6 +25,9 @@ public class Game
     private Parser parser;
     private Room currentRoom;
     private Stack<Room>lastRooms;
+    private ArrayList<Item> characterItems;
+    private static final int maxWeight = 10;
+    private int actualWeight;
     /**
      * Create the game and initialise its internal map.
      */
@@ -32,6 +36,8 @@ public class Game
         createRooms();
         parser = new Parser();
         lastRooms = new Stack<>();
+        characterItems = new ArrayList<>();
+        actualWeight = 0;
     }
 
     /**
@@ -44,16 +50,16 @@ public class Game
         // create the rooms
         entrada = new Room("inside the main entrance of the bank");
         recepcion = new Room("in the reception"); 
-        recepcion.addItem("a sack of coins", 2);
+        recepcion.addItem("a sack of coins", 2, true);
         salaMaquinas = new Room("in the machine room");
         oficinas = new Room("in the offices"); 
-        oficinas.addItem("a lot of pappers", 5);
-        oficinas.addItem("some boxes", 10);
-        oficinas.addItem("three cards", 1);
+        oficinas.addItem("a lot of pappers", 5, false);
+        oficinas.addItem("some boxes", 10, true);
+        oficinas.addItem("three cards", 1, true);
         almacen = new Room("in the warehouse");
         cajaFuerte = new Room("in the bank safety deposit box room!");
-        cajaFuerte.addItem("a gold chest", 1);
-        cajaFuerte.addItem("some gold coins", 2);
+        cajaFuerte.addItem("a gold chest", 1, false);
+        cajaFuerte.addItem("some gold coins", 2, true);
 
         // initialise room exits
         entrada.setExit("north", recepcion);
@@ -141,8 +147,19 @@ public class Game
         else if (commandWord.equals("eat")) {
             eat();
         }
-                else if (commandWord.equals("back")) {
+        else if (commandWord.equals("back")) {
             back();
+        }
+        else if (commandWord.equals("take")) {
+            int itemNum = Integer.parseInt(command.getSecondWord());
+            takeItem(itemNum);
+        }
+        else if (commandWord.equals("drop")){
+            int itemNum = Integer.parseInt(command.getSecondWord());
+            removeCharactersItem(itemNum);
+        }
+        else if (commandWord.equals("items")){
+            itemsCarriedInfo();
         }
         return wantToQuit;
     }
@@ -170,7 +187,7 @@ public class Game
     {
         System.out.println(currentRoom.getLongDescription());
     }
-    
+
     /**
      * Prints a message that you have eaten
      */
@@ -178,7 +195,7 @@ public class Game
     {
         System.out.println("You have eaten now and you are not hungry any more");
     }
-    
+
     /** 
      * Try to go in one direction. If there is an exit, enter
      * the new room, otherwise print an error message.
@@ -229,7 +246,7 @@ public class Game
             return true;  // signal that we want to quit
         }
     }
-    
+
     /**
      * Return to the last Room you have been in
      */
@@ -243,5 +260,49 @@ public class Game
         else {
             System.out.println("You cant go back");
         }
+    }
+
+    /**
+     * Takes an item in the current room
+     * @param item - the item you take
+     */
+    private void takeItem(int numItem)
+    {
+        if (actualWeight < maxWeight) {
+            Item itemToTake = currentRoom.takeItem(numItem);
+            if (itemToTake.getAbleToCatch()) {
+                characterItems.add(itemToTake);
+                actualWeight += itemToTake.getWeight();
+                currentRoom.removeItem(itemToTake);
+                System.out.println("You catch " + itemToTake.getDescription());
+            }
+            else {
+                System.out.println("You cant catch this item");
+            }
+        }
+        else {
+            System.out.println("You cant carry anything else");
+        }
+    }
+    
+    /** 
+     * Shows the info of the items taked by a character
+     */
+    private void itemsCarriedInfo() 
+    {
+        for (Item actualItem : characterItems) {
+            System.out.println("You have " + actualItem.getDescription() + " that weights " + actualItem.getWeight() + "kg");
+        }
+    }
+    
+    /** 
+     * Removes an item
+     */
+    private void removeCharactersItem(int numItem) 
+    {
+        Item itemToRemove = characterItems.get(numItem);
+        currentRoom.addItem(itemToRemove);
+        characterItems.remove(numItem);
+        System.out.println("You have droped " + itemToRemove.getDescription());
     }
 }

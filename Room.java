@@ -110,10 +110,40 @@ public class Room
     }
     
     /**
-     * 
+     * Add an item to the room
+     * @param descripcion items description
+     * @param weight items weight
      */
-    public void addItem(String description, int weight)
+    public void addItem(String description, int weight, boolean ableToCatch)
     {
-        items.add(new Item(description, weight));
+        items.add(new Item(description, weight, ableToCatch));
+    }
+    
+    /**
+     * Adds an item to the room
+     * @param item, the item you add
+     */
+    public void addItem(Item item)
+    {
+        items.add(item);
+    }
+    
+    /**
+     * Takes the item in the selected position
+     * @param numItem the item's number position
+     * @return The item taken by the character
+     */
+    public Item takeItem(int numItem)
+    {
+       return items.get(numItem);
+    }
+    
+    /**
+     * Removes an item from the rum
+     * @param numItem the items number position
+     */
+    public void removeItem(Item item)
+    {
+        items.remove(item);
     }
 }
