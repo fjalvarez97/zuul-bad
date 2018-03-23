@@ -109,8 +109,14 @@ public class Player
         if (command.hasSecondWord()) {
             Item itemToTake = currentRoom.takeRoomsItem(command.getSecondWord());
             if (itemToTake != null) {
-                inventory.add(itemToTake);
-                System.out.println("You take " + itemToTake.fullItemDescription());
+                if (itemToTake.ableToCatch()) {
+                    inventory.add(itemToTake);
+                    currentRoom.removeItem(itemToTake);
+                    System.out.println("You take " + itemToTake.fullItemDescription());
+                }
+                else {
+                    System.out.println("You can't take that item!");
+                }
             }
             else {
                 System.out.println("You can't find that item here!");

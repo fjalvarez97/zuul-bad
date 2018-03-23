@@ -45,16 +45,16 @@ public class Game
         // create the rooms
         entrada = new Room("inside the main entrance of the bank");
         recepcion = new Room("in the reception"); 
-        recepcion.addItem("sack of coins", 2);
+        recepcion.addItem("sack of coins", 2,true);
         salaMaquinas = new Room("in the machine room");
         oficinas = new Room("in the offices"); 
-        oficinas.addItem("pappers", 5);
-        oficinas.addItem("boxes", 10);
-        oficinas.addItem("cards", 1);
+        oficinas.addItem("pappers", 5, true);
+        oficinas.addItem("boxes", 10, true);
+        oficinas.addItem("cards", 1, false);
         almacen = new Room("in the warehouse");
         cajaFuerte = new Room("in the bank safety deposit box room!");
-        cajaFuerte.addItem("chest", 1);
-        cajaFuerte.addItem("gold coins", 2);
+        cajaFuerte.addItem("chest", 1, false);
+        cajaFuerte.addItem("gold coins", 2, false);
 
         // initialise room exits
         entrada.setExit("north", recepcion);

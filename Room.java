@@ -110,13 +110,21 @@ public class Room
     }
 
     /**
-     * 
+     * Adds an item to the room 
+     * @parameter description the item's description
+     * @parameter weight the item's weight
+     * @parameter ableToCatch if you can take or not the item
      */
-    public void addItem(String description, int weight)
+    public void addItem(String description, int weight, boolean ableToCatch)
     {
-        items.add(new Item(description, weight));
+        items.add(new Item(description, weight,ableToCatch));
     }
-
+    
+    /**
+     * Take the item that matchs the name
+     * @param name the name of the item you want to take
+     * @return the item you take
+     */
     public Item takeRoomsItem(String name)
     {
         Item itemToReturn = null;
@@ -129,5 +137,19 @@ public class Room
             }
         }
         return itemToReturn;
+    }
+    
+    /**
+     * Removes from the room them item you want
+     * @param item they item that will be removed
+     */
+    public void removeItem(Item item)
+    {
+        for (int i=0; i<items.size();i++){
+            if (items.get(i)==item){
+                items.remove(item);
+                break;
+            }
+        }
     }
 }
