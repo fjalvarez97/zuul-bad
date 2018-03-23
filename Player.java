@@ -15,6 +15,7 @@ public class Player
     private Stack<Room> lastRooms;
     private ArrayList<Item> inventory;
     //Items carried by the player
+    private int actualWeight;
     /**
      * Constructor for objects of class Player
      */    
@@ -24,6 +25,7 @@ public class Player
         currentRoom = defaultRoom;
         //Sala por defecto en la que empieza el jugador
         inventory = new ArrayList<>();
+        actualWeight = 0;
     }
 
     /**
@@ -112,6 +114,7 @@ public class Player
                 if (itemToTake.ableToCatch()) {
                     inventory.add(itemToTake);
                     currentRoom.removeItem(itemToTake);
+                    actualWeight += itemToTake.getWeight();
                     System.out.println("You take " + itemToTake.fullItemDescription());
                 }
                 else {
@@ -125,5 +128,21 @@ public class Player
         else {
             System.out.println("Take what?");
         }
+    }
+
+    /**
+     * Informs about the items in the inventory
+     */
+    public void itemsCarriedInfo()
+    {
+        if (inventory.size()==0){
+            System.out.println("You aren't carrying anything");
+        }
+        else {
+            for (Item actualItem : inventory) {
+                System.out.println("You have " + actualItem.getDescription() + " that weights " + actualItem.getWeight() + "kg");
+            }
+        }
+        System.out.println("Your actual weight is " + actualWeight + "kg");
     }
 }

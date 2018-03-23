@@ -148,6 +148,9 @@ public class Game
         else if (commandWord.equals("take")) {
             player.takeItem(command);
         }
+        else if (commandWord.equals("items")){
+            player.itemsCarriedInfo();
+        }
         return wantToQuit;
     }
 
