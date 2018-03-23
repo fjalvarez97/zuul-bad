@@ -119,7 +119,16 @@ public class Room
     {
         items.add(new Item(description, weight,ableToCatch));
     }
-    
+
+    /**
+     * Adds an item to the room
+     * @param item the item you add
+     */
+    public void addItem(Item item)
+    {
+        items.add(item);
+    }
+
     /**
      * Take the item that matchs the name
      * @param name the name of the item you want to take
@@ -138,7 +147,7 @@ public class Room
         }
         return itemToReturn;
     }
-    
+
     /**
      * Removes from the room them item you want
      * @param item they item that will be removed

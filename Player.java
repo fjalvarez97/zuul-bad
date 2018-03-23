@@ -131,6 +131,43 @@ public class Player
     }
 
     /**
+     * Drops an item that name's match with the parameter's name 
+     */
+    public void dropItem(Command command)
+    {
+        if (command.hasSecondWord()) {
+            Item itemToDrop = null;
+            int i = 0;
+            boolean buscando = true;
+            for(Item actualItem : inventory)
+            {
+                String[] parts = (actualItem.getDescription().split(" ")); 
+                String itemName = parts[0];
+                if (itemName.equals(command.getSecondWord())){
+                    itemToDrop = actualItem;
+                }
+            }
+            if (itemToDrop != null) {
+                if (itemToDrop.ableToCatch()) {
+                    inventory.remove(itemToDrop);
+                    currentRoom.addItem(itemToDrop);
+                    actualWeight -= itemToDrop.getWeight();
+                    System.out.println("You take " + itemToDrop.fullItemDescription());
+                }
+                else {
+                    System.out.println("You can't take that item!");
+                }
+            }
+            else {
+                System.out.println("You can't find that item here!");
+            }
+        }
+        else {
+            System.out.println("Take what?");
+        }
+    }
+
+    /**
      * Informs about the items in the inventory
      */
     public void itemsCarriedInfo()
