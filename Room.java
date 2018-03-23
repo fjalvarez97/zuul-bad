@@ -103,17 +103,31 @@ public class Room
         if (items.size() > 0)
         {
             for (Item item : items) {
-                description += "You find " + item.getDescription() + " that weigths " + item.getWeight() + "kg" + "\n";
+                description += "You find: " + item.getDescription() + " that weigths " + item.getWeight() + "kg" + "\n";
             }
         }
         return description;
     }
-    
+
     /**
      * 
      */
     public void addItem(String description, int weight)
     {
         items.add(new Item(description, weight));
+    }
+
+    public Item takeRoomsItem(String name)
+    {
+        Item itemToReturn = null;
+        for(Item actualItem : items)
+        {
+            String[] parts = (actualItem.getDescription().split(" ")); 
+            String itemName = parts[0];
+            if (itemName.equals(name)){
+                itemToReturn = actualItem;
+            }
+        }
+        return itemToReturn;
     }
 }

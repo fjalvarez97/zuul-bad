@@ -45,16 +45,16 @@ public class Game
         // create the rooms
         entrada = new Room("inside the main entrance of the bank");
         recepcion = new Room("in the reception"); 
-        recepcion.addItem("a sack of coins", 2);
+        recepcion.addItem("sack of coins", 2);
         salaMaquinas = new Room("in the machine room");
         oficinas = new Room("in the offices"); 
-        oficinas.addItem("a lot of pappers", 5);
-        oficinas.addItem("some boxes", 10);
-        oficinas.addItem("three cards", 1);
+        oficinas.addItem("pappers", 5);
+        oficinas.addItem("boxes", 10);
+        oficinas.addItem("cards", 1);
         almacen = new Room("in the warehouse");
         cajaFuerte = new Room("in the bank safety deposit box room!");
-        cajaFuerte.addItem("a gold chest", 1);
-        cajaFuerte.addItem("some gold coins", 2);
+        cajaFuerte.addItem("chest", 1);
+        cajaFuerte.addItem("gold coins", 2);
 
         // initialise room exits
         entrada.setExit("north", recepcion);
@@ -77,7 +77,7 @@ public class Game
 
         cajaFuerte.setExit("south", oficinas);
         cajaFuerte.setExit("west", almacen);
-        
+
         return entrada;
     }
 
@@ -144,6 +144,9 @@ public class Game
         }
         else if (commandWord.equals("back")) {
             player.back();
+        }
+        else if (commandWord.equals("take")) {
+            player.takeItem(command);
         }
         return wantToQuit;
     }

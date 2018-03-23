@@ -2,6 +2,7 @@ import java.util.Vector;
 import java.util.AbstractCollection;
 import java.util.Stack;
 import java.util.AbstractList;
+import java.util.ArrayList;
 /**
  * Write a description of class Player here.
  *
@@ -11,7 +12,9 @@ import java.util.AbstractList;
 public class Player
 {
     private Room currentRoom;
-    private Stack<Room>lastRooms;
+    private Stack<Room> lastRooms;
+    private ArrayList<Item> inventory;
+    //Items carried by the player
     /**
      * Constructor for objects of class Player
      */    
@@ -20,6 +23,7 @@ public class Player
         lastRooms = new Stack<>();    
         currentRoom = defaultRoom;
         //Sala por defecto en la que empieza el jugador
+        inventory = new ArrayList<>();
     }
 
     /**
@@ -95,5 +99,25 @@ public class Player
     public void eat()
     {
         System.out.println("You have eaten now and you are not hungry any more");
+    }
+
+    /**
+     * Takes an item that name's match with the parameter's name 
+     */
+    public void takeItem(Command command)
+    {
+        if (command.hasSecondWord()) {
+            Item itemToTake = currentRoom.takeRoomsItem(command.getSecondWord());
+            if (itemToTake != null) {
+                inventory.add(itemToTake);
+                System.out.println("You take " + itemToTake.fullItemDescription());
+            }
+            else {
+                System.out.println("You can't find that item here!");
+            }
+        }
+        else {
+            System.out.println("Take what?");
+        }
     }
 }

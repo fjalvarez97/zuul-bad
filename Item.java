@@ -36,4 +36,12 @@ public class Item
     {
         return weight;
     }
+    
+    /**
+     * Devuelve la descripcion completa de un objeto
+     */
+    public String fullItemDescription()
+    {
+        return description + " that weights " + weight + "kg";
+    }
 }
