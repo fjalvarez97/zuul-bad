@@ -16,6 +16,7 @@ public class Player
     private ArrayList<Item> inventory;
     //Items carried by the player
     private int actualWeight;
+    private static final int PESO_MAXIMO= 10;
     /**
      * Constructor for objects of class Player
      */    
@@ -112,10 +113,15 @@ public class Player
             Item itemToTake = currentRoom.takeRoomsItem(command.getSecondWord());
             if (itemToTake != null) {
                 if (itemToTake.ableToCatch()) {
-                    inventory.add(itemToTake);
-                    currentRoom.removeItem(itemToTake);
-                    actualWeight += itemToTake.getWeight();
-                    System.out.println("You take " + itemToTake.fullItemDescription());
+                    if (itemToTake.getWeight() + actualWeight > PESO_MAXIMO){
+                        System.out.println("You are full");
+                    }
+                    else {
+                        inventory.add(itemToTake);
+                        currentRoom.removeItem(itemToTake);
+                        actualWeight += itemToTake.getWeight();
+                        System.out.println("You take " + itemToTake.fullItemDescription());
+                    }
                 }
                 else {
                     System.out.println("You can't take that item!");
