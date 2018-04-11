@@ -12,13 +12,15 @@ public class Item
     // item's description
     private int weight;
     // item's weight (kg)
+    private boolean ableToCatch;
     /**
      * Constructor for objects of class Item
      */
-    public Item(String description, int weight)
+    public Item(String description, int weight, boolean ableToCatch)
     {
         this.description = description;
         this.weight = weight;
+        this.ableToCatch = ableToCatch;
     }
     
     /**
@@ -35,5 +37,21 @@ public class Item
     public int getWeight()
     {
         return weight;
+    }
+    
+    /**
+     * Devuelve la descripcion completa de un objeto
+     */
+    public String fullItemDescription()
+    {
+        return description + " that weights " + weight + "kg";
+    }
+    
+    /**
+     * Dice si el objeto se puede o no coger
+     */
+    public boolean ableToCatch()
+    {
+        return ableToCatch;
     }
 }

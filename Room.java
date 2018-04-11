@@ -103,17 +103,62 @@ public class Room
         if (items.size() > 0)
         {
             for (Item item : items) {
-                description += "You find " + item.getDescription() + " that weigths " + item.getWeight() + "kg" + "\n";
+                description += "You find: " + item.getDescription() + " that weigths " + item.getWeight() + "kg" + "\n";
             }
         }
         return description;
     }
-    
+
     /**
-     * 
+     * Adds an item to the room 
+     * @parameter description the item's description
+     * @parameter weight the item's weight
+     * @parameter ableToCatch if you can take or not the item
      */
-    public void addItem(String description, int weight)
+    public void addItem(String description, int weight, boolean ableToCatch)
     {
-        items.add(new Item(description, weight));
+        items.add(new Item(description, weight,ableToCatch));
+    }
+
+    /**
+     * Adds an item to the room
+     * @param item the item you add
+     */
+    public void addItem(Item item)
+    {
+        items.add(item);
+    }
+
+    /**
+     * Take the item that matchs the name
+     * @param name the name of the item you want to take
+     * @return the item you take
+     */
+    public Item takeRoomsItem(String name)
+    {
+        Item itemToReturn = null;
+        for(Item actualItem : items)
+        {
+            String[] parts = (actualItem.getDescription().split(" ")); 
+            String itemName = parts[0];
+            if (itemName.equals(name)){
+                itemToReturn = actualItem;
+            }
+        }
+        return itemToReturn;
+    }
+
+    /**
+     * Removes from the room them item you want
+     * @param item they item that will be removed
+     */
+    public void removeItem(Item item)
+    {
+        for (int i=0; i<items.size();i++){
+            if (items.get(i)==item){
+                items.remove(item);
+                break;
+            }
+        }
     }
 }

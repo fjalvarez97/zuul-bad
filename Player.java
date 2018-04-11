@@ -2,6 +2,7 @@ import java.util.Vector;
 import java.util.AbstractCollection;
 import java.util.Stack;
 import java.util.AbstractList;
+import java.util.ArrayList;
 /**
  * Write a description of class Player here.
  *
@@ -11,7 +12,11 @@ import java.util.AbstractList;
 public class Player
 {
     private Room currentRoom;
-    private Stack<Room>lastRooms;
+    private Stack<Room> lastRooms;
+    private ArrayList<Item> inventory;
+    //Items carried by the player
+    private int actualWeight;
+    private static final int PESO_MAXIMO= 10;
     /**
      * Constructor for objects of class Player
      */    
@@ -20,6 +25,8 @@ public class Player
         lastRooms = new Stack<>();    
         currentRoom = defaultRoom;
         //Sala por defecto en la que empieza el jugador
+        inventory = new ArrayList<>();
+        actualWeight = 0;
     }
 
     /**
@@ -95,5 +102,87 @@ public class Player
     public void eat()
     {
         System.out.println("You have eaten now and you are not hungry any more");
+    }
+
+    /**
+     * Takes an item that name's match with the parameter's name 
+     */
+    public void takeItem(Command command)
+    {
+        if (command.hasSecondWord()) {
+            Item itemToTake = currentRoom.takeRoomsItem(command.getSecondWord());
+            if (itemToTake != null) {
+                if (itemToTake.ableToCatch()) {
+                    if (itemToTake.getWeight() + actualWeight > PESO_MAXIMO){
+                        System.out.println("You are full");
+                    }
+                    else {
+                        inventory.add(itemToTake);
+                        currentRoom.removeItem(itemToTake);
+                        actualWeight += itemToTake.getWeight();
+                        System.out.println("You take " + itemToTake.fullItemDescription());
+                    }
+                }
+                else {
+                    System.out.println("You can't take that item!");
+                }
+            }
+            else {
+                System.out.println("You can't find that item here!");
+            }
+        }
+        else {
+            System.out.println("Take what?");
+        }
+    }
+
+    /**
+     * Drops an item that name's match with the parameter's name 
+     */
+    public void dropItem(Command command)
+    {
+        if (command.hasSecondWord()) {
+            Item itemToDrop = null;
+            int i = 0;
+            boolean buscando = true;
+            for(Item actualItem : inventory)
+            {
+                String[] parts = (actualItem.getDescription().split(" ")); 
+                String itemName = parts[0];
+                if (itemName.equalsIgnoreCase(command.getSecondWord())){
+                    itemToDrop = actualItem;
+                }
+            }
+            if (itemToDrop != null) {
+                if (itemToDrop.ableToCatch()) {
+                    inventory.remove(itemToDrop);
+                    currentRoom.addItem(itemToDrop);
+                    actualWeight -= itemToDrop.getWeight();
+                    System.out.println("You drop " + itemToDrop.fullItemDescription());
+                }
+                else {
+                    System.out.println("You can't drop that item!");
+                }
+            }
+        }
+        else {
+            System.out.println("Drop what?");
+        }
+    }
+
+    /**
+     * Informs about the items in the inventory
+     */
+    public void itemsCarriedInfo()
+    {
+        if (inventory.size()==0){
+            System.out.println("You aren't carrying anything");
+        }
+        else {
+            for (Item actualItem : inventory) {
+                System.out.println("You have " + actualItem.getDescription() + " that weights " + actualItem.getWeight() + "kg");
+            }
+        }
+        System.out.println("Your actual weight is " + actualWeight + "kg");
     }
 }
