@@ -143,7 +143,7 @@ public class Player
             {
                 String[] parts = (actualItem.getDescription().split(" ")); 
                 String itemName = parts[0];
-                if (itemName.equals(command.getSecondWord())){
+                if (itemName.equalsIgnoreCase(command.getSecondWord())){
                     itemToDrop = actualItem;
                 }
             }
@@ -152,18 +152,15 @@ public class Player
                     inventory.remove(itemToDrop);
                     currentRoom.addItem(itemToDrop);
                     actualWeight -= itemToDrop.getWeight();
-                    System.out.println("You take " + itemToDrop.fullItemDescription());
+                    System.out.println("You drop " + itemToDrop.fullItemDescription());
                 }
                 else {
-                    System.out.println("You can't take that item!");
+                    System.out.println("You can't drop that item!");
                 }
-            }
-            else {
-                System.out.println("You can't find that item here!");
             }
         }
         else {
-            System.out.println("Take what?");
+            System.out.println("Drop what?");
         }
     }
 

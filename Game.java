@@ -151,6 +151,9 @@ public class Game
         else if (commandWord.equals("items")){
             player.itemsCarriedInfo();
         }
+        else if (commandWord.equals("drop")){
+            player.dropItem(command);
+        }
         return wantToQuit;
     }
 
