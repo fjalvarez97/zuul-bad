@@ -16,7 +16,8 @@ public class Player
     private ArrayList<Item> inventory;
     //Items carried by the player
     private int actualWeight;
-    private static final int PESO_MAXIMO= 10;
+    private int maxWeight;
+    private Item key;
     /**
      * Constructor for objects of class Player
      */    
@@ -27,6 +28,8 @@ public class Player
         //Sala por defecto en la que empieza el jugador
         inventory = new ArrayList<>();
         actualWeight = 0;
+        maxWeight = 10;
+        key = null;
     }
 
     /**
@@ -106,6 +109,7 @@ public class Player
 
     /**
      * Takes an item that name's match with the parameter's name 
+     * @param command take + the item you want to take
      */
     public void takeItem(Command command)
     {
@@ -113,14 +117,20 @@ public class Player
             Item itemToTake = currentRoom.takeRoomsItem(command.getSecondWord());
             if (itemToTake != null) {
                 if (itemToTake.ableToCatch()) {
-                    if (itemToTake.getWeight() + actualWeight > PESO_MAXIMO){
+                    if (itemToTake.getWeight() + actualWeight > maxWeight){
                         System.out.println("You are full");
                     }
                     else {
                         inventory.add(itemToTake);
                         currentRoom.removeItem(itemToTake);
-                        actualWeight += itemToTake.getWeight();
-                        System.out.println("You take " + itemToTake.fullItemDescription());
+                        if (itemToTake.getDescription().equals("keycode")){
+                            key = itemToTake;
+                            System.out.println("You got the keycode of the safe box!");
+                        }
+                        else {
+                            actualWeight += itemToTake.getWeight();
+                            System.out.println("You take " + itemToTake.fullItemDescription());
+                        }
                     }
                 }
                 else {
@@ -138,6 +148,7 @@ public class Player
 
     /**
      * Drops an item that name's match with the parameter's name 
+     * @param command drop + the item you want to drop
      */
     public void dropItem(Command command)
     {
@@ -184,5 +195,31 @@ public class Player
             }
         }
         System.out.println("Your actual weight is " + actualWeight + "kg");
+    }
+
+    /**
+     * Opens the safeBox if you are in the safebox room and have the keycode item
+     */
+    public void openSafeBox()
+    {
+        if (currentRoom.getDescription().equals("in the bank safety deposit box room!")){
+            if (key != null){
+                maxWeight*=2;
+                Item gold = new 
+                Item("gold ingots", 10, true);
+                inventory.add(gold);
+                actualWeight+=10;
+                inventory.remove(key);
+                System.out.println("You open the safebox and find many ingots!");
+                System.out.println("Now you can carry more weight in your inventory");
+                key = null;
+            }
+            else{
+                System.out.println("You havent got they keycode!");
+            }
+        }
+        else {
+            System.out.println("Nothing to open here");
+        }
     }
 }

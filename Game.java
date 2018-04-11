@@ -47,6 +47,7 @@ public class Game
         recepcion = new Room("in the reception"); 
         recepcion.addItem("sack of coins", 2,true);
         salaMaquinas = new Room("in the machine room");
+        salaMaquinas.addItem("keycode", 0,true);
         oficinas = new Room("in the offices"); 
         oficinas.addItem("pappers", 5, true);
         oficinas.addItem("boxes", 10, true);
@@ -153,6 +154,9 @@ public class Game
         }
         else if (commandWord.equals("drop")){
             player.dropItem(command);
+        }
+        else if (commandWord.equals("open")){
+            player.openSafeBox();
         }
         return wantToQuit;
     }
