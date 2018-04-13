@@ -19,7 +19,7 @@
 
 public class Command
 {
-    private String commandWord;
+    private CommandWord commandWord;
     private String secondWord;
 
     /**
@@ -29,7 +29,7 @@ public class Command
      *                  was not recognised.
      * @param secondWord The second word of the command.
      */
-    public Command(String firstWord, String secondWord)
+    public Command(CommandWord firstWord, String secondWord)
     {
         commandWord = firstWord;
         this.secondWord = secondWord;
@@ -40,8 +40,13 @@ public class Command
      * command was not understood, the result is null.
      * @return The command word.
      */
-    public String getCommandWord()
+    public CommandWord getCommandWord()
     {
+        CommandWord cmd = commandWord;
+        if (isUnknown())
+        {
+            cmd = CommandWord.UNKNOWN; 
+        }
         return commandWord;
     }
 
@@ -59,7 +64,11 @@ public class Command
      */
     public boolean isUnknown()
     {
-        return (commandWord == null);
+        boolean isUnknown = true;
+        if (commandWord != commandWord.UNKNOWN) {
+            isUnknown = false;
+        }
+        return isUnknown;
     }
 
     /**

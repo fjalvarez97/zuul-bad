@@ -121,42 +121,41 @@ public class Game
     private boolean processCommand(Command command) 
     {
         boolean wantToQuit = false;
-
-        if(command.isUnknown()) {
-            System.out.println("I don't know what you mean...");
-            return false;
-        }
-
-        String commandWord = command.getCommandWord();
-        if (commandWord.equals("help")) {
-            printHelp();
-        }
-        else if (commandWord.equals("go")) {
-            player.goRoom(command);
-        }
-        else if (commandWord.equals("quit")) {
-            wantToQuit = quit(command);
-        }
-        else if (commandWord.equals("look")) {
-            player.look();
-        }
-        else if (commandWord.equals("eat")) {
-            player.eat();
-        }
-        else if (commandWord.equals("back")) {
-            player.back();
-        }
-        else if (commandWord.equals("take")) {
-            player.takeItem(command);
-        }
-        else if (commandWord.equals("items")){
-            player.itemsCarriedInfo();
-        }
-        else if (commandWord.equals("drop")){
-            player.dropItem(command);
-        }
-        else if (commandWord.equals("open")){
-            player.openSafeBox();
+        CommandWord commandWord = command.getCommandWord();
+        switch(commandWord) {
+            case UNKNOWN:
+                System.out.println("I dont know what you mean...");
+                break;
+            case HELP:
+                printHelp();
+                break;
+            case GO:
+                player.goRoom(command);
+                break;
+            case QUIT:
+                wantToQuit = quit(command);
+                break;
+            case LOOK:
+                player.look();
+                break;
+            case EAT:
+                player.eat();
+                break;
+            case BACK:
+                player.back();
+                break;
+            case TAKE:
+                player.takeItem(command);
+                break;
+            case ITEMS:
+                player.itemsCarriedInfo();
+                break;
+            case DROP:
+                player.dropItem(command);
+                break;
+            case OPEN:
+                player.openSafeBox();
+                break;
         }
         return wantToQuit;
     }
