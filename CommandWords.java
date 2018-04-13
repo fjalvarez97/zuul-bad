@@ -31,7 +31,6 @@ public class CommandWords
         validCommands.put("drop", CommandWord.DROP);
         validCommands.put("items", CommandWord.ITEMS);
         validCommands.put("open", CommandWord.OPEN);
-        validCommands.put("unknown", CommandWord.UNKNOWN);
     }
 
     /**
@@ -85,11 +84,7 @@ public class CommandWords
      */
     public boolean isCommand(String aString)
     {
-        if(getCommandWord(aString)!= CommandWord.UNKNOWN) {
-            return true;
-        }
-        // if we get here, the string was not found in the commands
-        return false;
+        return validCommands.containsKey(aString);
     }
 
     public String getCommandList()
